@@ -1,0 +1,27 @@
+import axios, { AxiosPromise } from "axios";
+
+interface HasId {
+  id?: number;
+}
+
+export class Sync<T extends HasId> {
+  constructor(public rootUrl: string) {}
+
+  fetch(id: number): AxiosPromise<T> {
+    return axios.get(`${this.rootUrl}/${id}`);
+  }
+
+  save(data: T): AxiosPromise<T> {
+    const { id } = data;
+    if (id) {
+      // fetch(`${this.rootUrl}/${id}`, {
+      //   method: "PUT",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify(this.data),
+      // });
+      return axios.put(`${this.rootUrl}/${id}`, { ...data });
+    } else {
+      return axios.post(this.rootUrl, { ...data });
+    }
+  }
+}
