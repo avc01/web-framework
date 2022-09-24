@@ -1,13 +1,7 @@
 import { User } from "./models/User";
 
-const user = new User({});
+const user = new User({ id: 1, name: "newer name!!!!", age: 121 });
 
-user.events.on("onChange", () => {
-  console.log("onChange event from index");
-});
+user.on("save", () => console.log(user));
 
-user.events.on("onChange", () => {
-  console.log("onChange event from index1111");
-});
-
-user.events.trigger("onChange");
+user.save();
