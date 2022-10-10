@@ -1,4 +1,6 @@
-export class Attributes<T> {
+import { HasId } from "./Model";
+
+export class Attributes<T extends HasId> {
   constructor(private data: T) {}
 
   get = <K extends keyof T>(key: K): T[K] => this.data[key];

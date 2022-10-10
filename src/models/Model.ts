@@ -1,5 +1,4 @@
 import { AxiosPromise } from "axios";
-import { UserProps } from "./User";
 
 interface ModelAttributes<T> {
   set(value: T): void;
@@ -17,7 +16,7 @@ interface Events {
   trigger(eventName: string): void;
 }
 
-interface HasId {
+export interface HasId {
   id?: number;
 }
 
@@ -28,21 +27,24 @@ export class Model<T extends HasId> {
     private events: Events
   ) {}
 
-  get get(): Function {
-    return this.attributes.get;
-  }
+  // get get(): Function {
+  //   return this.attributes.get;
+  // }
+  get = this.attributes.get;
+
+  // get on(): Function {
+  //   return this.events.on;
+  // }
+  on = this.events.on;
+
+  // get trigger(): Function {
+  //   return this.events.trigger;
+  // }
+  trigger = this.events.trigger;
 
   set(update: T): void {
     this.attributes.set(update);
     this.events.trigger("change");
-  }
-
-  get on(): Function {
-    return this.events.on;
-  }
-
-  get trigger(): Function {
-    return this.events.trigger;
   }
 
   fetch(): void {
